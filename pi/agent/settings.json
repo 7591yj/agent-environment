@@ -1,0 +1,32 @@
+{
+  "extensions": [
+    "extensions/ask-user",
+    "extensions/background-terminals",
+    "extensions/copy-all",
+    "extensions/fallow.ts",
+    "extensions/file-search",
+    "extensions/firecrawl-search",
+    "extensions/git-info",
+    "extensions/loc.ts",
+    "extensions/model-info",
+    "extensions/pi-simplify",
+    "extensions/read-only.ts",
+    "extensions/skill-interpolation",
+    "extensions/subagents",
+    "extensions/summaries",
+    "extensions/ui-customization",
+    "extensions/workflows"
+  ],
+  "lastChangelogVersion": "0.84.1",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-terra",
+  "hideThinkingBlock": false,
+  "defaultThinkingLevel": "medium",
+  "theme": "tomorrow-night",
+  "enabledModels": [
+    "opencode-go/glm-5.2",
+    "openai-codex/gpt-5.6-sol",
+    "openai-codex/gpt-5.6-terra",
+    "opencode-go/kimi-k3"
+  ]
+}

@@ -1,0 +1,4 @@
+node_modules/
+/result
+/result-*
+.DS_Store
