@@ -2,10 +2,26 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
   cfg = config.programs.agent-environment;
+  piExtensions = pkgs.buildNpmPackage {
+    pname = "pi-extensions";
+    version = "0.1.0";
+    src = "${cfg.piConfigPath}/extensions";
+    npmDepsHash = "sha256-AdjAnH7Y12jIkCApZMbAK3D9wh82uyM9KOFj7rsOX6c=";
+    npmFlags = [ "--legacy-peer-deps" ];
+    dontNpmBuild = true;
+
+    installPhase = ''
+      runHook preInstall
+      mkdir -p "$out"
+      cp -LR . "$out"
+      runHook postInstall
+    '';
+  };
 in
 {
   imports = [ inputs.agent-skills-nix.homeManagerModules.default ];
@@ -94,7 +110,7 @@ in
         force = true;
       };
       ".pi/agent/extensions" = {
-        source = "${cfg.piConfigPath}/extensions";
+        source = piExtensions;
         force = true;
       };
       ".pi/agent/themes" = {
