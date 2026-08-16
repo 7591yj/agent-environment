@@ -11,8 +11,8 @@ let
     pname = "pi-extensions";
     version = "0.1.0";
     src = "${cfg.piConfigPath}/extensions";
-    npmDepsHash = "sha256-AdjAnH7Y12jIkCApZMbAK3D9wh82uyM9KOFj7rsOX6c=";
-    npmFlags = [ "--legacy-peer-deps" ];
+    npmDepsHash = "sha256-/4vuc0WmRzbhltGfwzpH93I92DyCNzbfkja4vacaWSU=";
+    npmFlags = [ "--omit=dev" ];
     dontNpmBuild = true;
 
     installPhase = ''
