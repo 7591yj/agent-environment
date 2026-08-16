@@ -1,0 +1,36 @@
+name: Update LLM agents
+
+on:
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - name: Update LLM agents input
+        run: nix flake update llm-agents
+      - name: Sync Pi changelog version
+        run: |
+          version="$(nix eval --raw --impure --expr '(builtins.getFlake (toString ./.)).inputs."llm-agents".packages."x86_64-linux".pi.version')"
+          jq --arg version "$version" '.lastChangelogVersion = $version' pi/agent/settings.json > settings.json
+          mv settings.json pi/agent/settings.json
+      - name: Validate flake
+        run: nix flake check --accept-flake-config
+      - name: Commit update
+        run: |
+          if git diff --quiet -- flake.lock pi/agent/settings.json; then
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add flake.lock pi/agent/settings.json
+          git commit -m "chore: update LLM agents"
+          git push

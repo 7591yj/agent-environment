@@ -7,6 +7,20 @@
 }:
 let
   cfg = config.programs.agent-environment;
+  llmAgentPackages = inputs."llm-agents".packages.${pkgs.system};
+  piPackage = llmAgentPackages.pi;
+  codingAgentPackages = [
+    piPackage
+    llmAgentPackages."cursor-agent"
+    llmAgentPackages."claude-code"
+    llmAgentPackages.codex
+    llmAgentPackages.opencode
+    llmAgentPackages.t3code
+    llmAgentPackages."t3code-desktop"
+  ];
+  piSettings =
+    (builtins.fromJSON (builtins.readFile "${cfg.piConfigPath}/settings.json"))
+    // { lastChangelogVersion = piPackage.version; };
   piExtensions = pkgs.buildNpmPackage {
     pname = "pi-extensions";
     version = "0.1.0";
@@ -106,7 +120,7 @@ in
         force = true;
       };
       ".pi/agent/settings.json" = {
-        source = "${cfg.piConfigPath}/settings.json";
+        text = builtins.toJSON piSettings;
         force = true;
       };
       ".pi/agent/extensions" = {
@@ -118,6 +132,8 @@ in
         force = true;
       };
     };
+
+    home.packages = codingAgentPackages;
 
     home.sessionVariables.WRANGLER_NO_SKILLS_UPDATE_PROMPTS = "true";
   };
