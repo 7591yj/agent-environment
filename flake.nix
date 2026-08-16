@@ -9,7 +9,6 @@
     };
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     agent-skills-nix = {
       url = "github:Kyure-A/agent-skills-nix";
