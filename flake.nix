@@ -31,8 +31,8 @@
       url = "github:anthropics/skills";
       flake = false;
     };
-    stop-slop = {
-      url = "github:hardikpandya/stop-slop";
+    unslop = {
+      url = "github:cursor/plugins";
       flake = false;
     };
   };
@@ -47,7 +47,7 @@
       impeccable,
       cloudflare-skills,
       anthropics-skills,
-      stop-slop,
+      unslop,
       ...
     }:
     let
@@ -88,7 +88,7 @@
           impeccable
           cloudflare-skills
           anthropics-skills
-          stop-slop
+          unslop
           ;
       };
     };

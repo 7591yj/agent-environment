@@ -58,9 +58,10 @@ in
         subdir = ".claude/skills";
         filter.nameRegex = "^nix-best-practices$";
       };
-      sources.stop-slop = {
-        path = inputs.stop-slop;
-        filter.nameRegex = "^$";
+      sources.unslop = {
+        path = inputs.unslop;
+        subdir = "pstack/skills";
+        filter.nameRegex = "^unslop$";
       };
       sources.anthropics-pdf = {
         path = inputs.anthropics-skills;
@@ -83,7 +84,7 @@ in
           "background-terminals"
           "nix-best-practices"
           "pdf"
-          "stop-slop"
+          "unslop"
           "impeccable"
           "linear-local-first-architecture"
           "subagents"

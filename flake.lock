@@ -225,23 +225,7 @@
         "llm-agents": "llm-agents",
         "nix-best-practices": "nix-best-practices",
         "nixpkgs": "nixpkgs_2",
-        "stop-slop": "stop-slop"
-      }
-    },
-    "stop-slop": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1773773436,
-        "narHash": "sha256-JMqlCRVEAfwG1TLMDpnamznkBfkmX6e2XyETTTH/TSE=",
-        "owner": "hardikpandya",
-        "repo": "stop-slop",
-        "rev": "8da1f030185bdfe8471220585162991eaeb970e9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hardikpandya",
-        "repo": "stop-slop",
-        "type": "github"
+        "unslop": "unslop"
       }
     },
     "systems": {
@@ -277,6 +261,22 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "unslop": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787281804,
+        "narHash": "sha256-rTkT/2dliMzvwDkza2+JNhSIzcTr9fXjvK2zwi/lRl8=",
+        "owner": "cursor",
+        "repo": "plugins",
+        "rev": "46125561306434d8a1d7745d540d8932ab0cd2a2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cursor",
+        "repo": "plugins",
         "type": "github"
       }
     }
