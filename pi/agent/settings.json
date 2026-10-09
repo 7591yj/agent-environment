@@ -17,7 +17,7 @@
     "extensions/ui-customization",
     "extensions/workflows"
   ],
-  "lastChangelogVersion": "1.0.2",
+  "lastChangelogVersion": "1.1.0",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-6.1-sol",
   "hideThinkingBlock": false,
