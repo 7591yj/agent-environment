@@ -11,16 +11,15 @@ let
   piPackage = llmAgentPackages.pi;
   codingAgentPackages = [
     piPackage
-    llmAgentPackages."cursor-agent"
     llmAgentPackages."claude-code"
     llmAgentPackages.codex
     llmAgentPackages.opencode
     llmAgentPackages.t3code
     llmAgentPackages."t3code-desktop"
   ];
-  piSettings =
-    (builtins.fromJSON (builtins.readFile "${cfg.piConfigPath}/settings.json"))
-    // { lastChangelogVersion = piPackage.version; };
+  piSettings = (builtins.fromJSON (builtins.readFile "${cfg.piConfigPath}/settings.json")) // {
+    lastChangelogVersion = piPackage.version;
+  };
   piExtensions = pkgs.buildNpmPackage {
     pname = "pi-extensions";
     version = "0.1.0";
@@ -63,15 +62,10 @@ in
         subdir = "pstack/skills";
         filter.nameRegex = "^unslop$";
       };
-      sources.anthropics-pdf = {
+      sources.anthropics = {
         path = inputs.anthropics-skills;
         subdir = "skills";
-        filter.nameRegex = "^pdf$";
-      };
-      sources.impeccable = {
-        path = inputs.impeccable;
-        subdir = ".pi/skills";
-        filter.nameRegex = "^impeccable$";
+        filter.nameRegex = "^frontend-design$";
       };
       sources.cloudflare = {
         path = inputs.cloudflare-skills;
@@ -83,9 +77,8 @@ in
         enable = [
           "background-terminals"
           "nix-best-practices"
-          "pdf"
+          "frontend-design"
           "unslop"
-          "impeccable"
           "linear-local-first-architecture"
           "subagents"
           "agents-sdk"

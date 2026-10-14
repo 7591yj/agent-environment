@@ -24,10 +24,6 @@
       url = "github:0xbigboss/claude-code";
       flake = false;
     };
-    impeccable = {
-      url = "github:pbakaus/impeccable";
-      flake = false;
-    };
     cloudflare-skills = {
       url = "github:cloudflare/skills";
       flake = false;
@@ -49,7 +45,6 @@
       home-manager,
       agent-skills-nix,
       nix-best-practices,
-      impeccable,
       cloudflare-skills,
       anthropics-skills,
       unslop,
@@ -90,7 +85,6 @@
       sources = {
         inherit
           nix-best-practices
-          impeccable
           cloudflare-skills
           anthropics-skills
           unslop
