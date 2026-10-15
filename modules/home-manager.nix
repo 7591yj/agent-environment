@@ -9,13 +9,17 @@ let
   cfg = config.programs.agent-environment;
   llmAgentPackages = inputs."llm-agents".packages.${pkgs.system};
   piPackage = llmAgentPackages.pi;
+  t3code = import ../pkgs/t3code.nix {
+    inherit pkgs;
+    releaseMetadata = inputs.t3code-releases;
+  };
   codingAgentPackages = [
     piPackage
     llmAgentPackages."claude-code"
     llmAgentPackages.codex
     llmAgentPackages.opencode
-    llmAgentPackages.t3code
-    llmAgentPackages."t3code-desktop"
+    t3code.cli
+    t3code.desktop
   ];
   piSettings = (builtins.fromJSON (builtins.readFile "${cfg.piConfigPath}/settings.json")) // {
     lastChangelogVersion = piPackage.version;

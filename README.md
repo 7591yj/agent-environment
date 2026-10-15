@@ -18,9 +18,9 @@ programs.agent-environment.enable = true;
 
 ## Notes
 
-- This flake includes Claude Code, Codex, OpenCode, T3 Code, and Pi.
-- Agent packages are provided by [`numtide/llm-agents.nix`](https://github.com/numtide/llm-agents.nix).
-
+- This flake includes Claude Code, Codex, OpenCode, T3 Code (CLI and desktop), and Pi.
+- Claude Code, Codex, OpenCode, and Pi are provided by [`numtide/llm-agents.nix`](https://github.com/numtide/llm-agents.nix).
+- T3 Code uses official stable release binaries, compatible with the public mobile companion app. The scheduled workflow follows the latest stable release. [`pkgs/t3code.nix`](./pkgs/t3code.nix)
 ## Licenses
 
 This flake is based on [my-pi-setup](https://github.com/davis7dotsh/my-pi-setup).

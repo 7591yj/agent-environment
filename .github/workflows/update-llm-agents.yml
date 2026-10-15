@@ -15,8 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
-      - name: Update LLM agents input
-        run: nix flake update llm-agents
+      - name: Update agent inputs
+        run: nix flake update llm-agents t3code-releases
       - name: Sync Pi changelog version
         run: |
           version="$(nix eval --raw --impure --expr '(builtins.getFlake (toString ./.)).inputs."llm-agents".packages."x86_64-linux".pi.version')"

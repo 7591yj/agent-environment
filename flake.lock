@@ -209,6 +209,7 @@
         "llm-agents": "llm-agents",
         "nix-best-practices": "nix-best-practices",
         "nixpkgs": "nixpkgs_2",
+        "t3code-releases": "t3code-releases",
         "unslop": "unslop"
       }
     },
@@ -225,6 +226,18 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
+      }
+    },
+    "t3code-releases": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-oCKwPyVH1QSChgq94ZYZM0aMbMW3SSJ07hY9p3K4ZXI=",
+        "type": "file",
+        "url": "https://api.github.com/repos/pingdotgg/t3code/releases/latest"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://api.github.com/repos/pingdotgg/t3code/releases/latest"
       }
     },
     "treefmt-nix": {

@@ -15,6 +15,11 @@
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
     };
+    t3code-releases = {
+      type = "file";
+      url = "https://api.github.com/repos/pingdotgg/t3code/releases/latest";
+      flake = false;
+    };
     agent-skills-nix = {
       url = "github:Kyure-A/agent-skills-nix";
       inputs.nixpkgs.follows = "nixpkgs";
