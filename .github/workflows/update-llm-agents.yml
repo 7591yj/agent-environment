@@ -2,7 +2,8 @@ name: Update LLM agents
 
 on:
   schedule:
-    - cron: "17 3 * * 1"
+    # Follow upstream's four daily checks offset by 30 minutes
+    - cron: "30 0,4,18,21 * * *"
   workflow_dispatch:
 
 permissions:
