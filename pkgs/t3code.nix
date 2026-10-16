@@ -1,7 +1,7 @@
-{ pkgs, releaseMetadata }:
+{ pkgs }:
 let
   inherit (pkgs) lib;
-  release = builtins.fromJSON (builtins.readFile releaseMetadata);
+  release = builtins.fromJSON (builtins.readFile ./t3code-release.json);
   version = lib.removePrefix "v" release.tag_name;
   asset = name:
     let
@@ -23,7 +23,6 @@ let
     platforms = [ "aarch64-darwin" "aarch64-linux" "x86_64-linux" ];
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
   };
-  appName = "T3 Code (Alpha)";
   appimageSrc = asset "T3-Code-${version}-${if pkgs.stdenv.hostPlatform.isAarch64 then "arm64" else "x86_64"}.AppImage";
   appimageContents = pkgs.appimageTools.extractType2 {
     pname = "t3code-desktop";
@@ -63,8 +62,10 @@ in
     installPhase = ''
       runHook preInstall
       mkdir -p "$out/Applications" "$out/bin"
-      cp -R ${lib.escapeShellArg "${appName}.app"} "$out/Applications/"
-      makeWrapper "$out/Applications/${appName}.app/Contents/MacOS/${appName}" \
+      apps=( *.app )
+      test "''${#apps[@]}" -eq 1
+      cp -R "''${apps[0]}" "$out/Applications/"
+      makeWrapper "$out/Applications/''${apps[0]}/Contents/MacOS/"* \
         "$out/bin/t3code-desktop"
       runHook postInstall
     '';

@@ -16,7 +16,27 @@ jobs:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
       - name: Update agent inputs
-        run: nix flake update llm-agents t3code-releases
+        run: nix flake update llm-agents
+      - name: Update T3 Code release snapshot
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/pingdotgg/t3code/releases/latest | jq -e '
+              (.tag_name | ltrimstr("v")) as $version
+              | ["t3-\($version)-darwin-arm64.tar.gz",
+                 "t3-\($version)-linux-arm64.tar.gz",
+                 "t3-\($version)-linux-x64.tar.gz",
+                 "T3-Code-\($version)-arm64.zip",
+                 "T3-Code-\($version)-arm64.AppImage",
+                 "T3-Code-\($version)-x86_64.AppImage"] as $required
+              | {tag_name, assets: [.assets[]
+                  | select(.name as $name | $required | index($name))
+                  | {name, browser_download_url, digest}]} | .assets |= sort_by(.name)
+              | if (.assets | length) != 6 or any(.assets[];
+                  (.digest // "" | test("^sha256:[0-9a-f]{64}$") | not))
+                then error("Incomplete T3 Code release or missing checksums") else . end
+          ' > pkgs/t3code-release.json
       - name: Sync Pi changelog version
         run: |
           version="$(nix eval --raw --impure --expr '(builtins.getFlake (toString ./.)).inputs."llm-agents".packages."x86_64-linux".pi.version')"
@@ -26,12 +46,12 @@ jobs:
         run: nix flake check --accept-flake-config
       - name: Commit update
         run: |
-          if git diff --quiet -- flake.lock pi/agent/settings.json; then
+          if git diff --quiet -- flake.lock pi/agent/settings.json pkgs/t3code-release.json; then
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add flake.lock pi/agent/settings.json
+          git add flake.lock pi/agent/settings.json pkgs/t3code-release.json
           git commit -m "chore: update LLM agents"
           git push

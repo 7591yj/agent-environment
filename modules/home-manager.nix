@@ -11,7 +11,6 @@ let
   piPackage = llmAgentPackages.pi;
   t3code = import ../pkgs/t3code.nix {
     inherit pkgs;
-    releaseMetadata = inputs.t3code-releases;
   };
   codingAgentPackages = [
     piPackage
