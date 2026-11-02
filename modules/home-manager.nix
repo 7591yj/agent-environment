@@ -44,6 +44,11 @@ in
 
   options.programs.agent-environment = {
     enable = lib.mkEnableOption "shared coding-agent environment";
+    instructionsPath = lib.mkOption {
+      type = lib.types.path;
+      default = self + /instructions/AGENTS.md;
+      description = "Shared global instructions for all coding agents.";
+    };
     piConfigPath = lib.mkOption {
       type = lib.types.path;
       default = self + /pi/agent;
@@ -112,8 +117,16 @@ in
     };
 
     home.file = {
+      ".codex/AGENTS.md" = {
+        source = cfg.instructionsPath;
+        force = true;
+      };
+      ".claude/CLAUDE.md" = {
+        source = cfg.instructionsPath;
+        force = true;
+      };
       ".pi/agent/AGENTS.md" = {
-        source = "${cfg.piConfigPath}/AGENTS.md";
+        source = cfg.instructionsPath;
         force = true;
       };
       ".pi/agent/settings.json" = {
@@ -128,6 +141,11 @@ in
         source = "${cfg.piConfigPath}/themes";
         force = true;
       };
+    };
+
+    xdg.configFile."opencode/AGENTS.md" = {
+      source = cfg.instructionsPath;
+      force = true;
     };
 
     home.packages = codingAgentPackages;

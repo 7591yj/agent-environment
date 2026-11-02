@@ -12,15 +12,19 @@ programs.agent-environment.enable = true;
 
 ## Customize
 
+- Shared global instructions: [`instructions/AGENTS.md`](./instructions/AGENTS.md)
 - Pi configuration: [`pi/agent`](./pi/agent)
 - Home Manager module: [`modules/home-manager.nix`](./modules/home-manager.nix)
 - Local skills: [`skills`](./skills)
 
+To use a different shared file, set
+`programs.agent-environment.instructionsPath = ./path/to/AGENTS.md;`.
+
 ## Notes
 
 - This flake includes Claude Code, Codex, OpenCode, T3 Code (CLI and desktop), and Pi.
-- Claude Code, Codex, OpenCode, and Pi are provided by [`numtide/llm-agents.nix`](https://github.com/numtide/llm-agents.nix).
-- T3 Code uses official stable release binaries, compatible with the public mobile companion app. The scheduled workflow follows the latest stable release. [`pkgs/t3code.nix`](./pkgs/t3code.nix)
+- All agents except for T3 Code are provided by [`numtide/llm-agents.nix`](https://github.com/numtide/llm-agents.nix).
+
 ## Licenses
 
 This flake is based on [my-pi-setup](https://github.com/davis7dotsh/my-pi-setup).

@@ -1,0 +1,3 @@
+- Always use short, one-line Conventional Commit messages.
+- Avoid explicit return types unless absolutely needed.
+- `as any` should be an absolute last resort. Always use real type safety. lean on type inference instead of manually writing new types.
