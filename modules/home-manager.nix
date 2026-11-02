@@ -7,7 +7,7 @@
 }:
 let
   cfg = config.programs.agent-environment;
-  llmAgentPackages = inputs."llm-agents".packages.${pkgs.system};
+  llmAgentPackages = inputs."llm-agents".packages.${pkgs.stdenv.hostPlatform.system};
   piPackage = llmAgentPackages.pi;
   t3code = import ../pkgs/t3code.nix {
     inherit pkgs;

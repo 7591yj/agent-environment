@@ -24,7 +24,7 @@ let
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
   };
   appimageSrc = asset "T3-Code-${version}-${if pkgs.stdenv.hostPlatform.isAarch64 then "arm64" else "x86_64"}.AppImage";
-  appimageContents = pkgs.appimageTools.extractType2 {
+  appimageContents = pkgs.appimageTools.extract {
     pname = "t3code-desktop";
     inherit version;
     src = appimageSrc;
