@@ -150,6 +150,30 @@ in
 
     home.packages = codingAgentPackages;
 
+    home.activation.claudeAttribution = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      run ${pkgs.writeShellScript "claude-attribution" ''
+        set -eu
+        settingsDir="${config.home.homeDirectory}/.claude"
+        settingsFile="$settingsDir/settings.json"
+        mkdir -p "$settingsDir"
+        temporaryFile=$(mktemp "$settingsDir/settings.json.XXXXXX")
+        trap 'rm -f "$temporaryFile"' EXIT
+
+        if [ -f "$settingsFile" ]; then
+          inputFile="$settingsFile"
+        else
+          inputFile=/dev/null
+        fi
+
+        ${lib.getExe pkgs.jq} -s '
+          (.[0] // {}) * {
+            attribution: {commit: "", pr: "", sessionUrl: false}
+          }
+        ' "$inputFile" > "$temporaryFile"
+        mv "$temporaryFile" "$settingsFile"
+      ''}
+    '';
+
     home.sessionVariables.WRANGLER_NO_SKILLS_UPDATE_PROMPTS = "true";
   };
 }
