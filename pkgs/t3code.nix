@@ -41,6 +41,10 @@ in
     buildInputs = lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       pkgs.stdenv.cc.cc.lib pkgs.openssl pkgs.zlib
     ];
+    postUnpack = lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
+      # These targets use glibc; bundled musl variants cannot be patched or loaded.
+      find "$sourceRoot/node_modules" -type d -name '*-linux-*-musl' -prune -exec rm -rf {} +
+    '';
     installPhase = ''
       runHook preInstall
       mkdir -p "$out/libexec/t3code" "$out/bin"
