@@ -39,11 +39,11 @@ in
     nativeBuildInputs = [ pkgs.makeWrapper ]
       ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.autoPatchelfHook ];
     buildInputs = lib.optionals pkgs.stdenv.hostPlatform.isLinux [
-      pkgs.stdenv.cc.cc.lib pkgs.openssl pkgs.zlib
+      pkgs.stdenv.cc.cc.lib pkgs.openssl pkgs.zlib pkgs.vulkan-loader
     ];
     postUnpack = lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
       # These targets use glibc; bundled musl variants cannot be patched or loaded.
-      find "$sourceRoot/node_modules" -type d -name '*-linux-*-musl' -prune -exec rm -rf {} +
+      find "$sourceRoot/node_modules" -type d \( -name '*-linux-*-musl' -o -name 'musl_*' \) -prune -exec rm -rf {} +
     '';
     installPhase = ''
       runHook preInstall
