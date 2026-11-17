@@ -3,10 +3,10 @@ let
   inherit (pkgs) lib;
   release = builtins.fromJSON (builtins.readFile ./t3code-release.json);
   version = lib.removePrefix "v" release.tag_name;
-  asset = name:
+  asset = names:
     let
-      releaseAsset = lib.findFirst (a: a.name == name)
-        (throw "T3 Code ${version} is missing ${name}") release.assets;
+      releaseAsset = lib.findFirst (a: lib.elem a.name names)
+        (throw "T3 Code ${version} is missing ${lib.concatStringsSep " or " names}") release.assets;
     in
     pkgs.fetchurl {
       url = releaseAsset.browser_download_url;
@@ -23,7 +23,11 @@ let
     platforms = [ "aarch64-darwin" "aarch64-linux" "x86_64-linux" ];
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
   };
-  appimageSrc = asset "T3-Code-${version}-${if pkgs.stdenv.hostPlatform.isAarch64 then "arm64" else "x86_64"}.AppImage";
+  appimageArch = if pkgs.stdenv.hostPlatform.isAarch64 then "arm64" else "x86_64";
+  appimageSrc = asset [
+    "T3-Code-${appimageArch}.AppImage"
+    "T3-Code-${version}-${appimageArch}.AppImage"
+  ];
   appimageContents = pkgs.appimageTools.extract {
     pname = "t3code-desktop";
     inherit version;
@@ -34,7 +38,7 @@ in
   cli = pkgs.stdenv.mkDerivation {
     pname = "t3code";
     inherit version;
-    src = asset "t3-${version}-${platform}.tar.gz";
+    src = asset [ "t3-${version}-${platform}.tar.gz" ];
     dontStrip = true;
     nativeBuildInputs = [ pkgs.makeWrapper ]
       ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.autoPatchelfHook ];
@@ -58,7 +62,7 @@ in
   desktop = if pkgs.stdenv.hostPlatform.isDarwin then pkgs.stdenvNoCC.mkDerivation {
     pname = "t3code-desktop";
     inherit version;
-    src = asset "T3-Code-${version}-arm64.zip";
+    src = asset [ "T3-Code-${version}-arm64.zip" ];
     nativeBuildInputs = [ pkgs.unzip pkgs.makeWrapper ];
     sourceRoot = ".";
     # Preserve the upstream app bundle and its code signature
