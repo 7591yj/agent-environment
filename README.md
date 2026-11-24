@@ -22,7 +22,7 @@ To use a different shared file, set
 
 ## Notes
 
-- This flake includes Claude Code, Codex, OpenCode, T3 Code (CLI and desktop), and Pi.
+- This flake includes Antigravity, Claude Code, Codex, OpenCode, T3 Code (CLI and desktop), and Pi.
 - All agents except for T3 Code are provided by [`numtide/llm-agents.nix`](https://github.com/numtide/llm-agents.nix).
 
 ## Licenses

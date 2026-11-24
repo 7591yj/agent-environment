@@ -14,6 +14,7 @@ let
   };
   codingAgentPackages = [
     piPackage
+    llmAgentPackages."antigravity-cli"
     llmAgentPackages."claude-code"
     llmAgentPackages.codex
     llmAgentPackages.opencode
@@ -107,6 +108,10 @@ in
 
       targets = {
         agents.enable = true;
+        antigravity = {
+          enable = true;
+          dest = "$HOME/.gemini/config/skills";
+        };
         claude.enable = true;
         codex.enable = true;
         pi = {
@@ -117,6 +122,10 @@ in
     };
 
     home.file = {
+      ".gemini/config/AGENTS.md" = {
+        source = cfg.instructionsPath;
+        force = true;
+      };
       ".codex/AGENTS.md" = {
         source = cfg.instructionsPath;
         force = true;
